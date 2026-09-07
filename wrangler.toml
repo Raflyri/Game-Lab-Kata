@@ -1,0 +1,9 @@
+name = "laboratorium-kata"
+compatibility_date = "2024-04-01"
+pages_build_output_dir = "."
+
+# Konfigurasi Cloudflare D1 Database (Opsional untuk koneksi database nyata)
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "laboratorium-kata-db"
+# database_id = "your-d1-database-id-here"

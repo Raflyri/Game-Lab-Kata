@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Laboratorium Kata - Game Edukasi Literasi SD (Kurikulum Merdeka)</title>
+    <meta name="description" content="Permainan edukatif mencocokkan kata berbasis fisika untuk Kurikulum Merdeka Fase A & B. Dilengkapi Papan Peringkat Global.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <main class="game-viewport">
+        <!-- ================= HUD Header ================= -->
+        <header class="game-hud">
+            <!-- Profil Aktif (Klik untuk ganti profil) -->
+            <div class="hud-profile-pill" id="switchProfileBtn" title="Klik untuk ganti profil">
+                <span class="hud-avatar" id="hudAvatar">🐱</span>
+                <div class="hud-profile-meta">
+                    <span class="hud-name" id="hudName">Prof. Kucing</span>
+                    <span class="hud-high-score" id="hudHighScore">Skor: 0</span>
+                </div>
+            </div>
+
+            <!-- Topik & Informasi Fase Kurikulum -->
+            <div class="hud-center-info">
+                <span class="hud-topic-badge" id="hudTopicInfo">🔬 Laboratorium Kata</span>
+            </div>
+
+            <!-- Statistik Skor, Nyawa, Leaderboard & Audio -->
+            <div class="hud-stats-group">
+                <button class="icon-btn trophy-btn" id="openLeaderboardBtn" title="Papan Peringkat Global">🏆</button>
+                <div class="hud-score-pill">
+                    ⭐ <span id="hudScore">0</span>
+                </div>
+                <div class="hud-combo-badge hidden" id="hudCombo">🔥 x2</div>
+                <div class="hud-lives-pill" id="hudLivesContainer">
+                    <span class="elixir-bottle active">🧪</span>
+                    <span class="elixir-bottle active">🧪</span>
+                    <span class="elixir-bottle active">🧪</span>
+                </div>
+                <button class="icon-btn" id="soundToggleBtn" title="Bisu/Aktifkan Suara">🔊</button>
+            </div>
+        </header>
+
+        <!-- ================= Canvas Area Permainan ================= -->
+        <section class="canvas-wrapper">
+            <canvas id="gameCanvas" width="900" height="650"></canvas>
+        </section>
+
+        <!-- ================= Modal 1: Pemilihan Profil (3 Slot Pemain Lokal) ================= -->
+        <div class="game-modal" id="profileModal">
+            <div class="modal-card">
+                <div class="modal-icon-header">🎒 🔬 ✨</div>
+                <h2>Pilih Peneliti Cilik</h2>
+                <p class="modal-subtitle">Pilih profilmu atau ketik nama barumu di bawah ini:</p>
+                
+                <div class="profiles-grid" id="profilesContainer">
+                    <!-- Diisi secara dinamis oleh profile.js -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= Modal 2: Menu Utama (Pilihan Fase Kurikulum Merdeka) ================= -->
+        <div class="game-modal hidden" id="menuModal">
+            <div class="modal-card">
+                <div class="modal-icon-header">🧪 📖 🎈</div>
+                <h2>Laboratorium Kata</h2>
+                <p class="modal-subtitle">Tarik gelembung kata ke wadah lab yang cocok sebelum pecah!</p>
+                
+                <div class="phase-selection-grid">
+                    <!-- Fase A: Kelas 1-2 SD -->
+                    <div class="phase-card">
+                        <div class="phase-icon">🌱</div>
+                        <h3 class="phase-title">Fase A (Kelas 1 - 2)</h3>
+                        <p class="phase-desc">Mencocokkan pasangan kata benda & kegiatan, hewan, serta lawan kata (Antonim) dasar.</p>
+                        <button class="btn-jelly btn-primary" id="btnFaseA">Mulai Fase A 🚀</button>
+                    </div>
+
+                    <!-- Fase B: Kelas 3-4 SD -->
+                    <div class="phase-card">
+                        <div class="phase-icon">🚀</div>
+                        <h3 class="phase-title">Fase B (Kelas 3 - 4)</h3>
+                        <p class="phase-desc">Struktur kalimat SPOK (Subjek - Predikat), sinonim, antonim, dan kosakata pengayaan.</p>
+                        <button class="btn-jelly btn-success" id="btnFaseB">Mulai Fase B 🌟</button>
+                    </div>
+                </div>
+
+                <div class="menu-bottom-actions">
+                    <button class="btn-jelly btn-secondary" onclick="window.game.showLeaderboardModal('all')">🏆 Papan Peringkat Global</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= Modal 3: Dialog Edukasi & Penjelasan Literasi ================= -->
+        <div class="game-modal hidden" id="educationalModal">
+            <div class="modal-card edu-card">
+                <div class="modal-icon-header" id="eduModalIcon">✨ 🔬 ✨</div>
+                <h2 id="eduModalTitle" class="edu-title-success">Jawaban Tepat! ⭐</h2>
+                <div class="edu-content-box">
+                    <p id="eduModalText">Bunga yang indah akan mekar di taman!</p>
+                </div>
+                <button class="btn-jelly btn-primary" id="btnNextEdu">Lanjut Belajar! ⏩</button>
+            </div>
+        </div>
+
+        <!-- ================= Modal 4: Kemenangan Level Selesai (Victory) ================= -->
+        <div class="game-modal hidden" id="victoryModal">
+            <div class="modal-card">
+                <div class="modal-icon-header">🏆 🌟 🎊</div>
+                <h2>Eksperimen Berhasil!</h2>
+                <p class="modal-subtitle">Kamu telah menyelesaikan penelitian laboratorium kata!</p>
+                
+                <div class="stats-summary-box">
+                    <div class="stat-item">
+                        <span class="stat-label">Bintang</span>
+                        <span class="stat-value" id="victoryStars">⭐⭐⭐</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Skor Total</span>
+                        <span class="stat-value" id="victoryScore">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Kata Tepat</span>
+                        <span class="stat-value" id="victoryCorrectCount">8 / 8</span>
+                    </div>
+                </div>
+
+                <!-- Evaluasi Rating Peneliti -->
+                <div class="rating-evaluation-card">
+                    <span class="rating-eval-label">Gelar Penelitianmu:</span>
+                    <div class="rating-eval-tier" id="victoryRatingTier">Profesor Jenius 👑 (★★★★★)</div>
+                </div>
+
+                <!-- Form Submit ke Leaderboard Global -->
+                <div class="leaderboard-submit-box">
+                    <label for="schoolNameInput" class="submit-label">Asal Sekolah / Madrasah:</label>
+                    <div class="submit-input-group">
+                        <input type="text" id="schoolNameInput" placeholder="Contoh: SD Negeri 1 Bintang" maxlength="30">
+                        <button class="btn-jelly btn-primary" id="btnSubmitLeaderboard">Kirim ke Leaderboard 🚀</button>
+                    </div>
+                    <div id="submitStatusMsg" class="status-text"></div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn-jelly btn-secondary btn-to-menu">Menu Utama 🏠</button>
+                    <button class="btn-jelly btn-success btn-restart-game">Main Lagi 🔄</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= Modal 5: Eksperimen Gagal (Game Over) ================= -->
+        <div class="game-modal hidden" id="gameOverModal">
+            <div class="modal-card">
+                <div class="modal-icon-header">🧪 💥 🧐</div>
+                <h2>Tabung Reaksi Meletus!</h2>
+                <p class="modal-subtitle">Jangan menyerah! Peneliti hebat belajar dari kesalahan.</p>
+                
+                <div class="stats-summary-box">
+                    <div class="stat-item">
+                        <span class="stat-label">Skor Akhir</span>
+                        <span class="stat-value" id="gameOverScore">0</span>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn-jelly btn-secondary btn-to-menu">Menu Utama 🏠</button>
+                    <button class="btn-jelly btn-warning btn-restart-game">Coba Lagi! 💡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= Modal 6: Papan Peringkat Global (Leaderboard & Rating) ================= -->
+        <div class="game-modal hidden" id="leaderboardModal">
+            <div class="modal-card leaderboard-card">
+                <div class="leaderboard-header">
+                    <div class="modal-icon-header">🏆 🌟 👑</div>
+                    <h2>Papan Peringkat Peneliti</h2>
+                    <p class="modal-subtitle">Peringkat & rating tertinggi peneliti cilik Indonesia</p>
+                </div>
+
+                <!-- Kartu Status Rating Pribadi -->
+                <div class="my-rating-summary">
+                    <div class="my-rating-badge" id="myRatingTier">Profesor Jenius 👑</div>
+                    <div class="my-rating-stars" id="myRatingStars">★★★★★ (5.0)</div>
+                    <div class="my-rating-meta" id="myRatingScore">Skor Tertinggimu: 0</div>
+                    <div class="my-rating-desc" id="myRatingDesc">Penguasaan literasi & kosakata sempurna!</div>
+                </div>
+
+                <!-- Filter Tab Fase -->
+                <div class="leaderboard-tabs">
+                    <button class="tab-filter-btn active" data-phase="all">Semua Fase</button>
+                    <button class="tab-filter-btn" data-phase="fase-a">Fase A (Kelas 1-2)</button>
+                    <button class="tab-filter-btn" data-phase="fase-b">Fase B (Kelas 3-4)</button>
+                </div>
+
+                <!-- Daftar Baris Ranking -->
+                <div class="leaderboard-list-scroll" id="leaderboardList">
+                    <!-- Diisi dinamis oleh game.js & leaderboard.js -->
+                </div>
+
+                <div class="modal-actions" style="margin-top: 18px;">
+                    <button class="btn-jelly btn-primary" id="btnCloseLeaderboard">Tutup Peringkat ✕</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Script Modules -->
+    <script src="js/audio.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/leaderboard.js"></script>
+    <script src="js/physics.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>

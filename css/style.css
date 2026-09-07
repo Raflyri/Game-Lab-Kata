@@ -1,0 +1,880 @@
+/* ==========================================================
+   Laboratorium Kata - Kids Friendly Stylesheet
+   Dirancang untuk Kurikulum Merdeka SD (Fase A / Fase B)
+   Mendukung Penuh Perangkat Mobile Smartphone & Tablet
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@700;800;900&display=swap');
+
+:root {
+    --primary-color: #4facfe;
+    --primary-dark: #0072ff;
+    --secondary-color: #ff6b8b;
+    --accent-yellow: #feca57;
+    --accent-green: #1dd1a1;
+    --bg-gradient: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    --card-bg: rgba(255, 255, 255, 0.96);
+    --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --shadow-bounce: 0 8px 0px rgba(0, 0, 0, 0.15);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --font-main: 'Fredoka', 'Nunito', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--bg-gradient);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #2d3748;
+    overflow: hidden;
+}
+
+/* ================= Container Utama Permainan ================= */
+.game-viewport {
+    position: relative;
+    width: 96vw;
+    max-width: 960px;
+    height: 94vh;
+    height: 94dvh;
+    max-height: 720px;
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 50px rgba(0, 80, 160, 0.18), 0 0 0 6px #ffffff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ================= Top HUD (Status Bar Anak-Anak) ================= */
+.game-hud {
+    height: 70px;
+    background: linear-gradient(90deg, #f8faff 0%, #e8f3ff 100%);
+    border-bottom: 3px solid #d0e5ff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 10;
+    gap: 8px;
+}
+
+.hud-profile-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    padding: 4px 12px;
+    border-radius: 40px;
+    border: 2px solid #bce0fd;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    flex-shrink: 0;
+}
+
+.hud-profile-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+.hud-avatar {
+    font-size: 26px;
+    line-height: 1;
+}
+
+.hud-profile-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.hud-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e3a8a;
+    max-width: 110px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hud-high-score {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.hud-center-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hud-topic-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1.5px solid #bae6fd;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.hud-stats-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.hud-score-pill {
+    background: #fff8e1;
+    border: 2px solid #ffe082;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #ff8f00;
+    white-space: nowrap;
+}
+
+.hud-combo-badge {
+    background: #ff5722;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 12px;
+    animation: pulse 1s infinite;
+}
+
+.hud-lives-pill {
+    display: flex;
+    gap: 3px;
+    font-size: 20px;
+}
+
+.elixir-bottle {
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.elixir-bottle.active {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.elixir-bottle.broken {
+    opacity: 0.3;
+    transform: scale(0.85);
+    filter: grayscale(1);
+}
+
+.icon-btn {
+    background: #ffffff;
+    border: 2px solid #cbd5e1;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
+    transition: transform 0.15s, background-color 0.2s;
+    flex-shrink: 0;
+}
+
+.icon-btn.trophy-btn {
+    background: #fffbeb;
+    border-color: #fcd34d;
+}
+
+.icon-btn:active {
+    transform: scale(0.92);
+}
+
+/* ================= Kontainer Canvas ================= */
+.canvas-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f0f9ff;
+    overflow: hidden;
+    touch-action: none;
+}
+
+#gameCanvas {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    background: transparent;
+    cursor: grab;
+    touch-action: none;
+}
+
+#gameCanvas:active {
+    cursor: grabbing;
+}
+
+/* ================= Modal & Dialog Overlay ================= */
+.game-modal {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    padding: 12px;
+}
+
+.game-modal.hidden {
+    display: none;
+}
+
+.modal-card {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    width: 92%;
+    max-width: 580px;
+    max-height: 88vh;
+    max-height: 88dvh;
+    overflow-y: auto;
+    padding: 26px 24px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    border: 5px solid #e0f2fe;
+    position: relative;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-icon-header {
+    font-size: 42px;
+    margin-bottom: 6px;
+}
+
+.modal-card h2 {
+    font-size: 24px;
+    color: #1e3a8a;
+    margin-bottom: 6px;
+}
+
+.modal-subtitle {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+/* ================= Kartu Profil Pemain (3 Slot) ================= */
+.profiles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.profile-card {
+    background: #f8fafc;
+    border: 3px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    padding: 14px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.profile-card:hover {
+    transform: translateY(-3px);
+    border-color: #93c5fd;
+}
+
+.profile-card.selected {
+    border-color: #3b82f6;
+    background: #eff6ff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.profile-avatar {
+    font-size: 40px;
+    margin-bottom: 6px;
+    line-height: 1;
+}
+
+.profile-info {
+    width: 100%;
+}
+
+.profile-name-input {
+    width: 100%;
+    font-family: var(--font-main);
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    color: #1e293b;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 6px;
+    background: #ffffff;
+}
+
+.profile-name-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    border-style: solid;
+}
+
+.profile-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+.profile-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 10px;
+    min-height: 20px;
+}
+
+.badge-item {
+    font-size: 9px;
+    font-weight: 700;
+    background: #e2e8f0;
+    color: #334155;
+    padding: 2px 5px;
+    border-radius: 8px;
+}
+
+/* ================= Tombol Bergaya Jelly / Bouncy 3D ================= */
+.btn-jelly {
+    font-family: var(--font-main);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 28px;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    outline: none;
+    box-shadow: 0 5px 0 rgba(0, 0, 0, 0.16);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-jelly:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 rgba(0, 0, 0, 0.18);
+}
+
+.btn-jelly:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
+}
+
+.btn-primary {
+    background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+    color: #ffffff;
+}
+
+.btn-success {
+    background: linear-gradient(180deg, #34d399 0%, #059669 100%);
+    color: #ffffff;
+}
+
+.btn-warning {
+    background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%);
+    color: #ffffff;
+}
+
+.btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+    box-shadow: 0 4px 0 #cbd5e1;
+}
+
+.btn-select-profile {
+    width: 100%;
+    font-family: var(--font-main);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 8px;
+    background: #3b82f6;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #1d4ed8;
+}
+
+/* ================= Menu Pemilihan Fase ================= */
+.phase-selection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0 20px 0;
+}
+
+.phase-card {
+    background: #f8fafc;
+    border: 3px solid #bae6fd;
+    border-radius: var(--radius-md);
+    padding: 20px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    box-shadow: 0 6px 16px rgba(0, 114, 255, 0.08);
+}
+
+.phase-icon {
+    font-size: 38px;
+}
+
+.phase-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0369a1;
+}
+
+.phase-desc {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.4;
+    min-height: 48px;
+}
+
+.menu-bottom-actions {
+    margin-top: 12px;
+}
+
+/* ================= Dialog Edukasi ================= */
+.edu-title-success {
+    color: #15803d !important;
+}
+
+.edu-title-learn {
+    color: #b45309 !important;
+}
+
+.edu-content-box {
+    background: #f0fdf4;
+    border: 2px dashed #86efac;
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    margin-bottom: 20px;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* ================= Modal Hasil (Victory & Rating) ================= */
+.stats-summary-box {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    padding: 12px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 16px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+.rating-evaluation-card {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border: 2px solid #fde68a;
+    border-radius: var(--radius-md);
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.rating-eval-label {
+    font-size: 12px;
+    color: #92400e;
+    font-weight: 700;
+}
+
+.rating-eval-tier {
+    font-size: 18px;
+    font-weight: 800;
+    color: #b45309;
+    margin-top: 2px;
+}
+
+.leaderboard-submit-box {
+    background: #f1f5f9;
+    border-radius: var(--radius-md);
+    padding: 12px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.submit-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 6px;
+}
+
+.submit-input-group {
+    display: flex;
+    gap: 8px;
+}
+
+.submit-input-group input {
+    flex: 1;
+    font-family: var(--font-main);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border: 2px solid #cbd5e1;
+    border-radius: 20px;
+    background: #ffffff;
+    outline: none;
+}
+
+.submit-input-group input:focus {
+    border-color: #3b82f6;
+}
+
+.status-text {
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 6px;
+    text-align: center;
+}
+
+.status-success {
+    color: #15803d;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+/* ================= Modal Papan Peringkat Global ================= */
+.modal-card.leaderboard-card {
+    max-width: 640px;
+}
+
+.my-rating-summary {
+    background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+    border: 2px solid #bae6fd;
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.my-rating-badge {
+    font-size: 17px;
+    font-weight: 800;
+    color: #0369a1;
+}
+
+.my-rating-stars {
+    font-size: 14px;
+    font-weight: 800;
+    color: #f59e0b;
+}
+
+.my-rating-meta {
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.my-rating-desc {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.leaderboard-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+}
+
+.tab-filter-btn {
+    font-family: var(--font-main);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border: none;
+    border-radius: 20px;
+    background: #f1f5f9;
+    color: #475569;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.tab-filter-btn.active {
+    background: #3b82f6;
+    color: #ffffff;
+}
+
+.leaderboard-list-scroll {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+}
+
+.leaderboard-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    gap: 10px;
+    text-align: left;
+    transition: background-color 0.15s;
+}
+
+.leaderboard-row:hover {
+    background-color: #f1f5f9;
+}
+
+.leaderboard-row:last-child {
+    border-bottom: none;
+}
+
+.leaderboard-row.rank-gold {
+    background: #fffbeb;
+}
+
+.leaderboard-row.rank-silver {
+    background: #f8fafc;
+}
+
+.leaderboard-row.rank-bronze {
+    background: #fff7ed;
+}
+
+.row-rank {
+    font-size: 16px;
+    font-weight: 800;
+    width: 28px;
+    text-align: center;
+}
+
+.row-avatar {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.row-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.row-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.row-school {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.row-tier {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.tier-pill {
+    font-size: 10px;
+    font-weight: 700;
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 2px 6px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+.rating-stars {
+    font-size: 10px;
+    color: #f59e0b;
+}
+
+.row-score {
+    font-size: 16px;
+    font-weight: 800;
+    color: #d97706;
+    min-width: 50px;
+    text-align: right;
+}
+
+.loading-state, .empty-state {
+    padding: 30px;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+/* ================= Animations ================= */
+@keyframes popIn {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+/* ================= Full Responsive: Tablet & Layar HP Mobile ================= */
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+    }
+
+    .game-viewport {
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .game-hud {
+        height: 60px;
+        padding: 0 10px;
+        gap: 6px;
+    }
+
+    .hud-name {
+        max-width: 80px;
+        font-size: 13px;
+    }
+
+    .hud-high-score {
+        display: none;
+    }
+
+    .hud-topic-badge {
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+
+    .hud-score-pill {
+        font-size: 14px;
+        padding: 3px 8px;
+    }
+
+    .hud-lives-pill {
+        font-size: 17px;
+    }
+
+    .icon-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
+
+    .profiles-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .phase-selection-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .submit-input-group {
+        flex-direction: column;
+    }
+
+    .submit-input-group input {
+        width: 100%;
+    }
+
+    .submit-input-group button {
+        width: 100%;
+    }
+
+    .row-tier {
+        display: none;
+    }
+
+    .modal-card {
+        padding: 20px 16px;
+    }
+}
