@@ -58,6 +58,7 @@ Labolatorium-Kata/
 │   └── api/
 │       ├── words.js           # Cloudflare Pages Function (bank soal D1)
 │       └── leaderboard.js     # Cloudflare Pages Function (leaderboard & rating D1)
+├── _worker.js                # Cloudflare Worker entry point (Workers with Assets & Pages)
 ├── schema.sql                 # Skema SQL tabel leaderboard & word_pairs untuk Cloudflare D1
 ├── wrangler.toml              # Konfigurasi Cloudflare Pages / Workers
 ├── CLOUDFLARE_GUIDE.md        # Panduan langkah demi langkah konfigurasi Cloudflare

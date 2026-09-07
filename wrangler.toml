@@ -1,8 +1,12 @@
-name = "laboratorium-kata"
+name = "game-lab-kata"
+main = "_worker.js"
 compatibility_date = "2024-04-01"
-pages_build_output_dir = "."
 
-# Konfigurasi Cloudflare D1 Database (Opsional untuk koneksi database nyata)
+[assets]
+directory = "."
+binding = "ASSETS"
+
+# Konfigurasi Cloudflare D1 Database (Aktifkan setelah membuat database D1)
 # [[d1_databases]]
 # binding = "DB"
 # database_name = "laboratorium-kata-db"
