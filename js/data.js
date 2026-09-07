@@ -1,16 +1,14 @@
 /**
- * Bank Data Soal "Laboratorium Kata"
+ * Bank Data Soal "Laboratorium Kata" (Expanded & Challenging)
  * Berdasarkan Kurikulum Merdeka (Bahasa Indonesia & Literasi SD)
- * - Fase A: Kelas 1-2 (Kosakata Dasar, Pasangan Benda & Tindakan, Lawan Kata / Antonim Sederhana)
- * - Fase B: Kelas 3-4 (Struktur SPOK, Sinonim & Antonim Kaya, Kosa Kata Kontekstual)
+ * - Fase A: Kelas 1-2 SD (Kosakata, Suara/Gerak Hewan, Indera, Antonim Dasar) - 25 Soal
+ * - Fase B: Kelas 3-4 SD (Struktur SPOK, Sinonim, Antonim Lanjutan, Sains & Profesi) - 25 Soal
  *
- * Catatan Arsitektur:
- * Data disiapkan dalam format tabel relasional terstruktur yang mensimulasikan
- * hasil kueri dari Cloudflare D1 Database (SELECT * FROM word_pairs WHERE phase = ?).
+ * Disiapkan untuk query Cloudflare D1 Database & Client-Side Offline Engine.
  */
 
 const CURRICULUM_DATA = {
-    // Fase A: Kelas 1 - 2 SD (Pasangan Subjek - Predikat sederhana & Antonim)
+    // ================= FASE A (KELAS 1 - 2 SD) =================
     "fase-a": [
         {
             id: 1,
@@ -18,7 +16,7 @@ const CURRICULUM_DATA = {
             subject: "Bunga",
             correctTarget: "Mekar",
             options: ["Mekar", "Terbang", "Berenang"],
-            explanation: "Bunga yang indah akan mekar di taman!",
+            explanation: "Bunga yang disiram dan terkena sinar matahari akan mekar indah!",
             category: "Subjek - Predikat",
             difficulty: "mudah"
         },
@@ -38,7 +36,7 @@ const CURRICULUM_DATA = {
             subject: "Burung",
             correctTarget: "Terbang",
             options: ["Menyelam", "Merayap", "Terbang"],
-            explanation: "Burung menggunakan sayapnya untuk terbang di langit.",
+            explanation: "Burung menggunakan kedua sayapnya untuk terbang di angkasa.",
             category: "Subjek - Predikat",
             difficulty: "mudah"
         },
@@ -48,7 +46,7 @@ const CURRICULUM_DATA = {
             subject: "Ikan",
             correctTarget: "Berenang",
             options: ["Berenang", "Melompat", "Memanjat"],
-            explanation: "Ikan berenang di dalam air menggunakan siripnya.",
+            explanation: "Ikan berenang di dalam air menggunakan sirip dan ekornya.",
             category: "Subjek - Predikat",
             difficulty: "mudah"
         },
@@ -58,7 +56,7 @@ const CURRICULUM_DATA = {
             subject: "Besar",
             correctTarget: "Kecil",
             options: ["Panjang", "Kecil", "Tinggi"],
-            explanation: "Lawan kata dari Besar adalah Kecil.",
+            explanation: "Lawan kata (kebalikan) dari Besar adalah Kecil.",
             category: "Antonim",
             difficulty: "mudah"
         },
@@ -78,7 +76,7 @@ const CURRICULUM_DATA = {
             subject: "Adik",
             correctTarget: "Tidur",
             options: ["Bekerja", "Tidur", "Memasak"],
-            explanation: "Saat malam tiba, Adik tidur nyenyak di kamarnya.",
+            explanation: "Saat malam tiba, Adik tidur nyenyak di tempat tidur.",
             category: "Subjek - Predikat",
             difficulty: "mudah"
         },
@@ -88,7 +86,7 @@ const CURRICULUM_DATA = {
             subject: "Matahari",
             correctTarget: "Bersinar",
             options: ["Hanyut", "Bersinar", "Berdengung"],
-            explanation: "Matahari bersinar terang menyinari bumi di siang hari.",
+            explanation: "Matahari bersinar menerangi bumi dan memberi kehangatan di siang hari.",
             category: "Subjek - Predikat",
             difficulty: "sedang"
         },
@@ -108,13 +106,163 @@ const CURRICULUM_DATA = {
             subject: "Pohon",
             correctTarget: "Tumbuh",
             options: ["Tumbuh", "Berlari", "Bicara"],
-            explanation: "Pohon disiram setiap hari agar tumbuh tinggi dan rindang.",
+            explanation: "Pohon yang dirawat dengan baik akan tumbuh subur dan rindang.",
+            category: "Subjek - Predikat",
+            difficulty: "sedang"
+        },
+        {
+            id: 11,
+            topic: "Panca Indera",
+            subject: "Mata",
+            correctTarget: "Melihat",
+            options: ["Melihat", "Mendengar", "Meraba"],
+            explanation: "Mata adalah indera penglihatan untuk melihat benda di sekitar kita.",
+            category: "Fungsi Benda",
+            difficulty: "mudah"
+        },
+        {
+            id: 12,
+            topic: "Panca Indera",
+            subject: "Telinga",
+            correctTarget: "Mendengar",
+            options: ["Mengecap", "Mendengar", "Mencium"],
+            explanation: "Telinga kita gunakan untuk mendengarkan suara dan musik yang merdu.",
+            category: "Fungsi Benda",
+            difficulty: "mudah"
+        },
+        {
+            id: 13,
+            topic: "Gejala Alam",
+            subject: "Hujan",
+            correctTarget: "Turun",
+            options: ["Terbakar", "Turun", "Menyala"],
+            explanation: "Tetesan air hujan turun dari awan ke permukaan bumi.",
+            category: "Subjek - Predikat",
+            difficulty: "mudah"
+        },
+        {
+            id: 14,
+            topic: "Hewan & Suaranya",
+            subject: "Ayam Jantan",
+            correctTarget: "Berkokok",
+            options: ["Berkokok", "Mengaum", "Menciap"],
+            explanation: "Ayam jantan berkokok di pagi hari: kukuruyuk!",
+            category: "Subjek - Predikat",
+            difficulty: "mudah"
+        },
+        {
+            id: 15,
+            topic: "Hewan & Gerakannya",
+            subject: "Katak",
+            correctTarget: "Melompat",
+            options: ["Terbang", "Melompat", "Meluncur"],
+            explanation: "Katak bergerak dengan cara melompat menggunakan kakinya yang kuat.",
+            category: "Subjek - Predikat",
+            difficulty: "sedang"
+        },
+        {
+            id: 16,
+            topic: "Rasa & Makanan",
+            subject: "Gula",
+            correctTarget: "Manis",
+            options: ["Pahit", "Asin", "Manis"],
+            explanation: "Gula memberikan rasa manis pada minuman teh dan kue.",
+            category: "Sifat Benda",
+            difficulty: "mudah"
+        },
+        {
+            id: 17,
+            topic: "Rasa & Makanan",
+            subject: "Cabai",
+            correctTarget: "Pedas",
+            options: ["Asam", "Pedas", "Manis"],
+            explanation: "Cabai memiliki rasa pedas yang membuat lidah terasa hangat.",
+            category: "Sifat Benda",
+            difficulty: "mudah"
+        },
+        {
+            id: 18,
+            topic: "Lawan Kata (Antonim)",
+            subject: "Panas",
+            correctTarget: "Dingin",
+            options: ["Hangat", "Dingin", "Sejuk"],
+            explanation: "Lawan kata dari Panas adalah Dingin (seperti es).",
+            category: "Antonim",
+            difficulty: "mudah"
+        },
+        {
+            id: 19,
+            topic: "Lawan Kata (Antonim)",
+            subject: "Cepat",
+            correctTarget: "Lambat",
+            options: ["Pelan", "Lambat", "Tenang"],
+            explanation: "Lawan kata dari Cepat adalah Lambat (seperti jalannya kura-kura).",
+            category: "Antonim",
+            difficulty: "mudah"
+        },
+        {
+            id: 20,
+            topic: "Alat Tulis & Fungsi",
+            subject: "Pensil",
+            correctTarget: "Menulis",
+            options: ["Menghapus", "Menulis", "Menggunting"],
+            explanation: "Pensil digunakan murid untuk menulis huruf dan menggambar.",
+            category: "Fungsi Benda",
+            difficulty: "mudah"
+        },
+        {
+            id: 21,
+            topic: "Peralatan & Fungsi",
+            subject: "Gunting",
+            correctTarget: "Memotong",
+            options: ["Menempel", "Memotong", "Menggaris"],
+            explanation: "Gunting adalah alat tajam yang berfungsi memotong kertas atau kain.",
+            category: "Fungsi Benda",
+            difficulty: "sedang"
+        },
+        {
+            id: 22,
+            topic: "Aktivitas Belajar",
+            subject: "Murid",
+            correctTarget: "Belajar",
+            options: ["Belajar", "Bekerja", "Berlayar"],
+            explanation: "Murid pergi ke sekolah untuk belajar bersama guru dan teman-teman.",
+            category: "Subjek - Predikat",
+            difficulty: "mudah"
+        },
+        {
+            id: 23,
+            topic: "Hewan & Suaranya",
+            subject: "Singa",
+            correctTarget: "Mengaum",
+            options: ["Meringkik", "Mengaum", "Mendengkur"],
+            explanation: "Singa si raja hutan bersuara dengan cara mengaum keras.",
+            category: "Subjek - Predikat",
+            difficulty: "sedang"
+        },
+        {
+            id: 24,
+            topic: "Lawan Kata (Antonim)",
+            subject: "Tinggi",
+            correctTarget: "Rendah",
+            options: ["Pendek", "Rendah", "Kecil"],
+            explanation: "Lawan kata dari posisi Tinggi adalah Rendah.",
+            category: "Antonim",
+            difficulty: "sedang"
+        },
+        {
+            id: 25,
+            topic: "Benda Langit Malam",
+            subject: "Bintang",
+            correctTarget: "Berkelip",
+            options: ["Membeku", "Berkelip", "Berdesir"],
+            explanation: "Bintang di langit malam yang cerah tampak berkelip-kelip indah.",
             category: "Subjek - Predikat",
             difficulty: "sedang"
         }
     ],
 
-    // Fase B: Kelas 3 - 4 SD (Struktur SPOK & Sinonim/Antonim Menengah)
+    // ================= FASE B (KELAS 3 - 4 SD) =================
     "fase-b": [
         {
             id: 101,
@@ -122,7 +270,7 @@ const CURRICULUM_DATA = {
             subject: "Dokter",
             correctTarget: "Mengobati",
             options: ["Mengajar", "Mengobati", "Merancang"],
-            explanation: "Dokter bertugas mengobati pasien yang sedang sakit.",
+            explanation: "Dokter bertugas memeriksa dan mengobati pasien yang sedang sakit.",
             category: "Struktur SPOK",
             difficulty: "sedang"
         },
@@ -132,7 +280,7 @@ const CURRICULUM_DATA = {
             subject: "Petani",
             correctTarget: "Menanam",
             options: ["Menangkap", "Menjahit", "Menanam"],
-            explanation: "Petani menanam padi di sawah dengan tekun.",
+            explanation: "Petani menanam bibit padi di sawah dengan tekun.",
             category: "Struktur SPOK",
             difficulty: "sedang"
         },
@@ -142,7 +290,7 @@ const CURRICULUM_DATA = {
             subject: "Giat",
             correctTarget: "Rajin",
             options: ["Malas", "Rajin", "Pintar"],
-            explanation: "Sinonim dari 'Giat' adalah 'Rajin'.",
+            explanation: "Sinonim (persamaan makna) dari kata 'Giat' adalah 'Rajin'.",
             category: "Sinonim",
             difficulty: "sedang"
         },
@@ -152,17 +300,17 @@ const CURRICULUM_DATA = {
             subject: "Pandai",
             correctTarget: "Cerdas",
             options: ["Cerdas", "Lincah", "Lambat"],
-            explanation: "Sinonim dari 'Pandai' adalah 'Cerdas'.",
+            explanation: "Sinonim dari kata 'Pandai' adalah 'Cerdas' atau 'Pintar'.",
             category: "Sinonim",
             difficulty: "sedang"
         },
         {
             id: 105,
-            topic: "Profesi & Keterangan (SPOK)",
+            topic: "Profesi & Tugas (SPOK)",
             subject: "Guru",
             correctTarget: "Mendidik",
             options: ["Mendidik", "Membangun", "Menyanyi"],
-            explanation: "Guru mendidik para siswa di sekolah dengan penuh kasih.",
+            explanation: "Guru mendidik dan mengajar para siswa di sekolah dengan kasih sayang.",
             category: "Struktur SPOK",
             difficulty: "sedang"
         },
@@ -172,7 +320,7 @@ const CURRICULUM_DATA = {
             subject: "Hemat",
             correctTarget: "Boros",
             options: ["Pelit", "Boros", "Kaya"],
-            explanation: "Lawan kata dari 'Hemat' adalah 'Boros'.",
+            explanation: "Lawan kata dari sifat 'Hemat' adalah 'Boros'.",
             category: "Antonim",
             difficulty: "sedang"
         },
@@ -182,19 +330,19 @@ const CURRICULUM_DATA = {
             subject: "Jujur",
             correctTarget: "Bohong",
             options: ["Bohong", "Sopan", "Berani"],
-            explanation: "Lawan kata dari 'Jujur' adalah 'Bohong' / 'Curang'.",
+            explanation: "Lawan kata dari sikap 'Jujur' adalah 'Bohong' atau 'Curang'.",
             category: "Antonim",
             difficulty: "sedang"
         },
         {
             id: 108,
-            topic: "Aksi & Objek (SPOK)",
+            topic: "Profesi & Karya (SPOK)",
             subject: "Penulis",
             correctTarget: "Mengarang",
             options: ["Melukis", "Mengarang", "Memotong"],
-            explanation: "Penulis mengarang cerita dongeng yang menarik.",
+            explanation: "Penulis mengarang cerita novel dan buku ilmu pengetahuan.",
             category: "Struktur SPOK",
-            difficulty: "sulit"
+            difficulty: "menantang"
         },
         {
             id: 109,
@@ -202,27 +350,177 @@ const CURRICULUM_DATA = {
             subject: "Indah",
             correctTarget: "Elok",
             options: ["Bagus", "Elok", "Megah"],
-            explanation: "Sinonim dari kata 'Indah' salah satunya adalah 'Elok'.",
+            explanation: "Kata puitis yang bersinonim dengan 'Indah' salah satunya adalah 'Elok'.",
             category: "Sinonim",
-            difficulty: "sulit"
+            difficulty: "menantang"
         },
         {
             id: 110,
-            topic: "Aksi & Lingkungan (SPOK)",
+            topic: "Profesi & Aktivitas (SPOK)",
             subject: "Nelayan",
             correctTarget: "Melaut",
             options: ["Melaut", "Membajak", "Menambang"],
-            explanation: "Nelayan melaut mencari ikan di tengah samudra.",
+            explanation: "Nelayan melaut ke tengah samudra untuk menangkap ikan segar.",
             category: "Struktur SPOK",
             difficulty: "sedang"
+        },
+        {
+            id: 111,
+            topic: "Profesi & Tugas (SPOK)",
+            subject: "Arsitek",
+            correctTarget: "Merancang",
+            options: ["Merancang", "Mengecat", "Mengelas"],
+            explanation: "Arsitek bertugas merancang denah dan bentuk bangunan gedung.",
+            category: "Struktur SPOK",
+            difficulty: "menantang"
+        },
+        {
+            id: 112,
+            topic: "Profesi & Aktivitas (SPOK)",
+            subject: "Koki",
+            correctTarget: "Memasak",
+            options: ["Menghias", "Memasak", "Mencuci"],
+            explanation: "Koki profesional memasak berbagai hidangan lezat di restoran.",
+            category: "Struktur SPOK",
+            difficulty: "sedang"
+        },
+        {
+            id: 113,
+            topic: "Persamaan Kata (Sinonim)",
+            subject: "Senang",
+            correctTarget: "Gembira",
+            options: ["Tertawa", "Gembira", "Bangga"],
+            explanation: "Sinonim yang paling tepat untuk kata 'Senang' adalah 'Gembira'.",
+            category: "Sinonim",
+            difficulty: "sedang"
+        },
+        {
+            id: 114,
+            topic: "Persamaan Kata (Sinonim)",
+            subject: "Luas",
+            correctTarget: "Lapang",
+            options: ["Panjang", "Lapang", "Tinggi"],
+            explanation: "Sinonim dari tanah atau ruangan yang 'Luas' adalah 'Lapang'.",
+            category: "Sinonim",
+            difficulty: "menantang"
+        },
+        {
+            id: 115,
+            topic: "Lawan Kata (Antonim)",
+            subject: "Pemberani",
+            correctTarget: "Penakut",
+            options: ["Pemalu", "Penakut", "Penyedih"],
+            explanation: "Lawan kata dari sikap 'Pemberani' adalah 'Penakut'.",
+            category: "Antonim",
+            difficulty: "sedang"
+        },
+        {
+            id: 116,
+            topic: "Lawan Kata (Antonim)",
+            subject: "Subur",
+            correctTarget: "Tandus",
+            options: ["Gersang", "Tandus", "Kering"],
+            explanation: "Tanah yang tidak bisa ditumbuhi tanaman disebut tanah 'Tandus' (lawan dari Subur).",
+            category: "Antonim",
+            difficulty: "menantang"
+        },
+        {
+            id: 117,
+            topic: "Sains & Tumbuhan (SPOK)",
+            subject: "Daun Hijau",
+            correctTarget: "Fotosintesis",
+            options: ["Fotosintesis", "Penguapan", "Pengendapan"],
+            explanation: "Daun hijau melakukan fotosintesis dengan bantuan sinar matahari untuk menghasilkan makanan.",
+            category: "Struktur SPOK",
+            difficulty: "menantang"
+        },
+        {
+            id: 118,
+            topic: "Sains & Tubuh Manusia (SPOK)",
+            subject: "Jantung",
+            correctTarget: "Memompa",
+            options: ["Menyaring", "Memompa", "Mencerna"],
+            explanation: "Organ jantung manusia bertugas memompa darah bersih ke seluruh tubuh.",
+            category: "Struktur SPOK",
+            difficulty: "menantang"
+        },
+        {
+            id: 119,
+            topic: "Persamaan Kata (Sinonim)",
+            subject: "Melihat",
+            correctTarget: "Memandang",
+            options: ["Melirik", "Memandang", "Menoleh"],
+            explanation: "Salah satu sinonim kata 'Melihat' secara saksama adalah 'Memandang'.",
+            category: "Sinonim",
+            difficulty: "sedang"
+        },
+        {
+            id: 120,
+            topic: "Lawan Kata (Antonim)",
+            subject: "Asli",
+            correctTarget: "Palsu",
+            options: ["Tiruan", "Palsu", "Bekas"],
+            explanation: "Lawan kata dari barang yang 'Asli' (orisinil) adalah 'Palsu'.",
+            category: "Antonim",
+            difficulty: "sedang"
+        },
+        {
+            id: 121,
+            topic: "Profesi & Transportasi (SPOK)",
+            subject: "Masinis",
+            correctTarget: "Menjalankan",
+            options: ["Menerbangkan", "Menjalankan", "Mengayuh"],
+            explanation: "Masinis bertugas menjalankan dan mengemudikan kereta api penumpang.",
+            category: "Struktur SPOK",
+            difficulty: "menantang"
+        },
+        {
+            id: 122,
+            topic: "Profesi & Transportasi (SPOK)",
+            subject: "Pilot",
+            correctTarget: "Menerbangkan",
+            options: ["Meluncurkan", "Menerbangkan", "Mengemudikan"],
+            explanation: "Pilot mengemudikan dan menerbangkan pesawat terbang di udara.",
+            category: "Struktur SPOK",
+            difficulty: "sedang"
+        },
+        {
+            id: 123,
+            topic: "Persamaan Kata (Sinonim)",
+            subject: "Pemberian",
+            correctTarget: "Hadiah",
+            options: ["Upah", "Hadiah", "Beli"],
+            explanation: "Sesuatu yang diberikan dengan ikhlas disebut 'Pemberian' atau 'Hadiah'.",
+            category: "Sinonim",
+            difficulty: "sedang"
+        },
+        {
+            id: 124,
+            topic: "Lawan Kata (Antonim)",
+            subject: "Kuno",
+            correctTarget: "Modern",
+            options: ["Canggih", "Modern", "Baru"],
+            explanation: "Zaman sekarang yang serba mutakhir disebut 'Modern', kebalikan dari 'Kuno'.",
+            category: "Antonim",
+            difficulty: "menantang"
+        },
+        {
+            id: 125,
+            topic: "Peduli Lingkungan (SPOK)",
+            subject: "Warga",
+            correctTarget: "Mendaur Ulang",
+            options: ["Membakar", "Mendaur Ulang", "Menimbun"],
+            explanation: "Warga yang cinta lingkungan mendaur ulang sampah plastik menjadi barang berguna.",
+            category: "Struktur SPOK",
+            difficulty: "menantang"
         }
     ]
 };
 
 /**
  * Service untuk memuat kata (Word Repository)
- * Mensimulasikan fetch ke Cloudflare Workers & Pages Functions API (`/api/words`),
- * dengan fallback ke data statis lokal jika berjalan secara offline.
+ * Mengambil data dari endpoint Cloudflare API (/api/words)
+ * atau menggunakan bank soal lengkap lokal secara acak.
  */
 class WordRepository {
     constructor() {
@@ -234,7 +532,6 @@ class WordRepository {
             return this.shuffleArray([...this.cache[phase]]);
         }
 
-        // Coba request ke Cloudflare Pages Functions / Workers endpoint
         try {
             const res = await fetch(`/api/words?phase=${encodeURIComponent(phase)}`, {
                 headers: { 'Accept': 'application/json' }
@@ -247,10 +544,9 @@ class WordRepository {
                 }
             }
         } catch (e) {
-            console.info("Workers API belum aktif atau running offline, menggunakan mock data lokal.", e.message);
+            console.info("Workers API belum aktif atau running offline, menggunakan bank soal lokal lengkap.", e.message);
         }
 
-        // Fallback offline / static D1 mock data
         const localData = CURRICULUM_DATA[phase] || CURRICULUM_DATA['fase-a'];
         this.cache[phase] = localData;
         return this.shuffleArray([...localData]);

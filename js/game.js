@@ -40,7 +40,7 @@ class LaboratoriumKataGame {
         this.maxLives = 3;
         this.questionsAnswered = 0;
         this.correctCount = 0;
-        this.totalQuestionsInLevel = 8;
+        this.totalQuestionsInLevel = 10;
 
         // Tema Warna 3 Tabung Lab
         this.flaskColorThemes = [
@@ -591,8 +591,8 @@ class LaboratoriumKataGame {
         window.soundEngine.playVictory();
 
         let stars = 1;
-        if (this.correctCount >= 7 && this.lives === 3) stars = 3;
-        else if (this.correctCount >= 5) stars = 2;
+        if (this.correctCount >= 9 && this.lives >= 2) stars = 3;
+        else if (this.correctCount >= 7) stars = 2;
 
         window.profileManager.recordGameResult(this.currentPhase, this.score, this.correctCount, stars);
         this.updateHUDProfile();
