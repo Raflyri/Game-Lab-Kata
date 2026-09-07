@@ -1,0 +1,10 @@
+# File & Direktori yang diabaikan dari Static Assets publik
+_worker.js
+functions/
+schema.sql
+wrangler.toml
+CLOUDFLARE_GUIDE.md
+README.md
+.git/
+.gitignore
+.assetsignore
