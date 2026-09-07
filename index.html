@@ -29,6 +29,7 @@
             <!-- Statistik Skor, Nyawa, Leaderboard & Audio -->
             <div class="hud-stats-group">
                 <button class="icon-btn trophy-btn" id="openLeaderboardBtn" title="Papan Peringkat Global">🏆</button>
+                <button class="icon-btn" id="btnFinishEarly" title="Selesai & Catat Skor">🏁</button>
                 <div class="hud-score-pill">
                     ⭐ <span id="hudScore">0</span>
                 </div>
@@ -157,9 +158,27 @@
                 
                 <div class="stats-summary-box">
                     <div class="stat-item">
+                        <span class="stat-label">Kata Tepat</span>
+                        <span class="stat-value" id="gameOverCorrectCount">0 Kata</span>
+                    </div>
+                    <div class="stat-item">
                         <span class="stat-label">Skor Akhir</span>
                         <span class="stat-value" id="gameOverScore">0</span>
                     </div>
+                </div>
+
+                <div class="rating-evaluation-card">
+                    <span class="rating-eval-label">Gelar Penelitianmu:</span>
+                    <div class="rating-eval-tier" id="gameOverRatingTier">Ilmuwan Pemula 🌱 (★★☆☆☆)</div>
+                </div>
+
+                <div class="leaderboard-submit-box">
+                    <label for="schoolNameInputGameOver" class="submit-label">Asal Sekolah / Madrasah:</label>
+                    <div class="submit-input-group">
+                        <input type="text" id="schoolNameInputGameOver" placeholder="Contoh: SD Negeri 1 Bintang" maxlength="30">
+                        <button class="btn-jelly btn-primary" id="btnSubmitLeaderboardGameOver">Kirim ke Leaderboard 🚀</button>
+                    </div>
+                    <div id="submitStatusMsgGameOver" class="status-text"></div>
                 </div>
 
                 <div class="modal-actions">

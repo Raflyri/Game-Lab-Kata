@@ -216,7 +216,23 @@ class LaboratoriumKataGame {
         // Tombol Submit Skor ke Leaderboard Global (dari Victory Modal)
         const btnSubmitLeaderboard = document.getElementById('btnSubmitLeaderboard');
         if (btnSubmitLeaderboard) {
-            btnSubmitLeaderboard.addEventListener('click', () => this.handleScoreSubmission());
+            btnSubmitLeaderboard.addEventListener('click', () => this.handleScoreSubmission(false));
+        }
+
+        // Tombol Submit Skor dari Game Over Modal
+        const btnSubmitLeaderboardGameOver = document.getElementById('btnSubmitLeaderboardGameOver');
+        if (btnSubmitLeaderboardGameOver) {
+            btnSubmitLeaderboardGameOver.addEventListener('click', () => this.handleScoreSubmission(true));
+        }
+
+        // Tombol Selesai Bermain Sukarela dari HUD (Bendera 🏁)
+        const btnFinishEarly = document.getElementById('btnFinishEarly');
+        if (btnFinishEarly) {
+            btnFinishEarly.addEventListener('click', () => {
+                if (this.currentState === this.STATE.PLAYING) {
+                    this.handleVictory();
+                }
+            });
         }
     }
 
@@ -354,10 +370,10 @@ class LaboratoriumKataGame {
         });
     }
 
-    async handleScoreSubmission() {
-        const btn = document.getElementById('btnSubmitLeaderboard');
-        const schoolInput = document.getElementById('schoolNameInput');
-        const statusEl = document.getElementById('submitStatusMsg');
+    async handleScoreSubmission(isGameOver = false) {
+        const btn = document.getElementById(isGameOver ? 'btnSubmitLeaderboardGameOver' : 'btnSubmitLeaderboard');
+        const schoolInput = document.getElementById(isGameOver ? 'schoolNameInputGameOver' : 'schoolNameInput');
+        const statusEl = document.getElementById(isGameOver ? 'submitStatusMsgGameOver' : 'submitStatusMsg');
 
         const activeProfile = window.profileManager.getActiveProfile();
         const schoolName = (schoolInput && schoolInput.value.trim()) ? schoolInput.value.trim() : 'SD Merdeka Belajar';
@@ -373,7 +389,7 @@ class LaboratoriumKataGame {
             avatar: activeProfile.avatar,
             phase: this.currentPhase,
             score: this.score,
-            stars: 3
+            stars: isGameOver ? 1 : 3
         };
 
         const result = await window.leaderboardService.submitScore(entry);
@@ -413,20 +429,21 @@ class LaboratoriumKataGame {
         window.soundEngine.startBgm();
 
         const allQuestions = await window.wordRepo.getWordsByPhase(phase);
-        this.wordQueue = allQuestions.slice(0, this.totalQuestionsInLevel);
+        this.wordQueue = allQuestions;
 
         this.spawnNextQuestion();
     }
 
-    spawnNextQuestion() {
+    async spawnNextQuestion() {
         if (this.lives <= 0) {
             this.handleGameOver();
             return;
         }
 
-        if (this.wordQueue.length === 0 || this.questionsAnswered >= this.totalQuestionsInLevel) {
-            this.handleVictory();
-            return;
+        // Mode Tanpa Batas: Jika antrean soal habis, otomatis isi ulang dari bank data
+        if (!this.wordQueue || this.wordQueue.length === 0) {
+            const moreQuestions = await window.wordRepo.getWordsByPhase(this.currentPhase);
+            this.wordQueue = moreQuestions;
         }
 
         this.activeQuestion = this.wordQueue.pop();
@@ -453,6 +470,9 @@ class LaboratoriumKataGame {
         const bubbleRadius = this.isPortraitMode ? 50 : 62;
 
         this.activeBubble = new GlossyBubble(this.activeQuestion, startX, startY, bubbleRadius);
+        // Sedikit percepat laju gelembung secara halus setiap 4 kata benar
+        const speedBonus = Math.min(0.45, Math.floor(this.correctCount / 4) * 0.04);
+        this.activeBubble.vy = 0.55 + speedBonus;
 
         const topicEl = document.getElementById('hudTopicInfo');
         if (topicEl) {
@@ -591,8 +611,8 @@ class LaboratoriumKataGame {
         window.soundEngine.playVictory();
 
         let stars = 1;
-        if (this.correctCount >= 9 && this.lives >= 2) stars = 3;
-        else if (this.correctCount >= 7) stars = 2;
+        if (this.correctCount >= 15) stars = 3;
+        else if (this.correctCount >= 8) stars = 2;
 
         window.profileManager.recordGameResult(this.currentPhase, this.score, this.correctCount, stars);
         this.updateHUDProfile();
@@ -610,7 +630,7 @@ class LaboratoriumKataGame {
 
         if (scoreEl) scoreEl.textContent = this.score;
         if (starsEl) starsEl.textContent = '⭐'.repeat(stars) + '☆'.repeat(3 - stars);
-        if (correctEl) correctEl.textContent = `${this.correctCount} / ${this.totalQuestionsInLevel}`;
+        if (correctEl) correctEl.textContent = `${this.correctCount} Kata Tepat`;
         if (tierEl) tierEl.textContent = `${rating.tier} (${rating.stars})`;
         if (btnSubmit) {
             btnSubmit.disabled = false;
@@ -628,9 +648,24 @@ class LaboratoriumKataGame {
         window.profileManager.recordGameResult(this.currentPhase, this.score, this.correctCount, 0);
         this.updateHUDProfile();
 
+        const rating = window.leaderboardService.getRatingInfo(this.score);
+
         const modal = document.getElementById('gameOverModal');
         const scoreEl = document.getElementById('gameOverScore');
+        const correctEl = document.getElementById('gameOverCorrectCount');
+        const tierEl = document.getElementById('gameOverRatingTier');
+        const btnSubmit = document.getElementById('btnSubmitLeaderboardGameOver');
+        const statusEl = document.getElementById('submitStatusMsgGameOver');
+
         if (scoreEl) scoreEl.textContent = this.score;
+        if (correctEl) correctEl.textContent = `${this.correctCount} Kata Tepat`;
+        if (tierEl) tierEl.textContent = `${rating.tier} (${rating.stars})`;
+        if (btnSubmit) {
+            btnSubmit.disabled = false;
+            btnSubmit.textContent = 'Kirim ke Leaderboard 🚀';
+        }
+        if (statusEl) statusEl.textContent = '';
+
         if (modal) modal.classList.remove('hidden');
     }
 

@@ -89,7 +89,7 @@ async function handleApiWords(request, env) {
 
     if (env && env.DB) {
         try {
-            const query = `SELECT id, topic, subject, correct_target as correctTarget, options_json as options, explanation, category FROM word_pairs WHERE phase = ? ORDER BY RANDOM() LIMIT 10`;
+            const query = `SELECT id, topic, subject, correct_target as correctTarget, options_json as options, explanation, category FROM word_pairs WHERE phase = ? ORDER BY RANDOM() LIMIT 100`;
             const { results } = await env.DB.prepare(query).bind(phase).all();
             const formatted = results.map(row => ({
                 ...row,

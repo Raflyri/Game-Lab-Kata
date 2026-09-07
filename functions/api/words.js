@@ -74,7 +74,7 @@ export async function onRequestGet(context) {
                 FROM word_pairs 
                 WHERE phase = ? 
                 ORDER BY RANDOM() 
-                LIMIT 10
+                LIMIT 100
             `;
             const { results } = await env.DB.prepare(query).bind(phase).all();
             const formatted = results.map(row => ({
